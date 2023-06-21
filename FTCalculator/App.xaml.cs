@@ -16,7 +16,7 @@ namespace FTCalculator
             IServiceProvider serviceProvider = CreateServiceProvider();
             // Required services created here.
 
-            Window window = new MainWindow();
+            Window window = serviceProvider.GetRequiredService<MainWindow>();
             window.Show();
             
             base.OnStartup(e); 
@@ -25,8 +25,10 @@ namespace FTCalculator
         private IServiceProvider CreateServiceProvider()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddSingleton<IOperationService, OperationService>();
+
             // Required services added here
+            services.AddSingleton<IOperationService, OperationService>();
+            services.AddSingleton<MainWindow>();
 
             return services.BuildServiceProvider();
         }

@@ -22,6 +22,8 @@ namespace FTCalculator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IOperationService _operationService;
+
         private float _storedNumber;
         public float StoredNumber
         {
@@ -29,23 +31,27 @@ namespace FTCalculator
             set { _storedNumber = value; }
         }
 
-        public MainWindow()
+        private Operator _currentOperator;
+        public Operator CurrentOperator
         {
-            IServiceContainer container = new ServiceContainer();
+            get { return _currentOperator; }
+            set { _currentOperator = value; }
+        }
 
+        public MainWindow(IOperationService operationService)
+        {
+            _operationService = operationService;
             InitializeComponent();
         }
 
-
-        /*public AddOperation_Click(object sender, RoutedEventArgs e)
+        public void AddOperation_Click(object sender, RoutedEventArgs e)
         {
-
+            // Activates if operator is enum Add
         }
 
-        public Calculate_Click(object sender, RoutedEventArgs e)
+        public void Calculate_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Calculate current operation
         }
-        */
     }
 }
