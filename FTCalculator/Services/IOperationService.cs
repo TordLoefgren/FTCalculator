@@ -1,5 +1,13 @@
 ﻿using System;
 
+public enum Operator 
+{
+    Add,
+    Subtract,
+    Divide,
+    Multiply
+}
+
 public interface IOperationService
 {
     float Add(float valueOne, float valueTwo);

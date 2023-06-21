@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +22,30 @@ namespace FTCalculator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private float _storedNumber;
+        public float StoredNumber
+        {
+            get { return _storedNumber; }
+            set { _storedNumber = value; }
+        }
+
         public MainWindow()
         {
             IServiceContainer container = new ServiceContainer();
+
             InitializeComponent();
         }
+
+
+        /*public AddOperation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public Calculate_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        */
     }
 }
