@@ -44,9 +44,20 @@ namespace FTCalculator
             InitializeComponent();
         }
 
-        public void AddOperation_Click(object sender, RoutedEventArgs e)
+        public void NumberButton_Click(object sender, RoutedEventArgs e)
         {
-            // Activates if operator is enum Add
+            // Converts a numbered button tag to a float
+            Button button = (Button)sender;
+
+            float number;
+
+            bool result = float.TryParse(button.Tag.ToString(), out number);
+
+            if (result)
+            {
+                // Test
+                CalculationResult.Text = number.ToString();
+            }
         }
 
         public void Calculate_Click(object sender, RoutedEventArgs e)

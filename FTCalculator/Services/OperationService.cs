@@ -26,4 +26,21 @@ public class OperationService : IOperationService
     {
         return valueOne - valueTwo;
     }
+
+    public int Factorial(int value)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentException("Input cannot be negative.");
+        }
+
+        if (value == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return value * Factorial(value - 1);
+        }
+    }
 }

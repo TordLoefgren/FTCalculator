@@ -16,19 +16,19 @@
             <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
         
-        <!-- Calculator operation screen -->
+        <!-- Calculator operation field -->
         <Grid Grid.Row="0">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="0.00 + 0.00" FontSize="35" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                    <TextBlock Grid.Row="1" Text="0.00" FontSize="50" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    <TextBlock Grid.Row="0" x:Name="CurrentOperations" Text="0.00 + 0.00" FontSize="35" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" x:Name="CalculationResult" Text="0.00" FontSize="50" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
             </Grid>
         </Grid>
         
-        <!-- Calculator buttons top -->
+        <!-- Calculator buttons top row -->
         <Grid Grid.Row="1">
             <Grid.Resources>
                 <Style TargetType="Button" BasedOn="{StaticResource CalculatorButton}"/>
@@ -43,7 +43,7 @@
             <Button Grid.Column="1" x:Name="ButtonDivide" Tag="DIVIDE">/</Button>
         </Grid>
 
-        <!-- Calculator buttons buttom -->
+        <!-- Calculator buttons buttom three rows -->
         <Grid Grid.Row="2">
 			<Grid.Resources>
 				<Style TargetType="Button" BasedOn="{StaticResource CalculatorButton}"/>
@@ -62,7 +62,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonSeven" Tag="7">7</Button>
+            <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonSeven" Tag="7" Click="NumberButton_Click">7</Button>
             <Button Grid.Row="0" Grid.Column="1" x:Name="ButtonEight" Tag="8">8</Button>
             <Button Grid.Row="0" Grid.Column="2" x:Name="ButtonNine" Tag="9">9</Button>
             <Button Grid.Row="0" Grid.Column="3" x:Name="ButtonMultiply" Tag="MULTIPLY">*</Button>
