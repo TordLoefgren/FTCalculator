@@ -1,34 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FTCalculator.Services
 {
     public class OperationService : IOperationService
     {
-        public float Add(float valueOne, float valueTwo)
+        public double Add(double valueOne, double valueTwo)
         {
             return valueOne + valueTwo;
         }
 
-        public float Divide(float valueOne, float valueTwo)
+        public double Divide(double valueOne, double valueTwo)
         {
             if (valueTwo == 0)
             {
                 // Do nothing in UI?
-                throw new DivideByZeroException();
+                throw new DivideByZeroException("You cannot divide a number by zero.");
             }
             return valueOne / valueTwo;
         }
 
-        public float Mutiply(float valueOne, float valueTwo)
+        public double Mutiply(double valueOne, double valueTwo)
         {
             return valueOne * valueTwo;
         }
 
-        public float Subtract(float valueOne, float valueTwo)
+        public double Subtract(double valueOne, double valueTwo)
         {
             return valueOne - valueTwo;
         }
