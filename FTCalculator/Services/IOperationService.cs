@@ -8,10 +8,12 @@ namespace FTCalculator.Services
 {
     public enum Operator
     {
+        NoOperator,
         Add,
         Subtract,
         Divide,
-        Multiply
+        Multiply,
+        Factorial
     }
 
     public interface IOperationService
