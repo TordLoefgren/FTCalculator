@@ -1,28 +1,12 @@
-﻿using FTCalculator.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
+using FTCalculator.Enums;
+using FTCalculator.Services;
 
 namespace FTCalculator
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly IOperationService _operationService;
@@ -64,9 +48,9 @@ namespace FTCalculator
         public Operator ActiveOperator
         {
             get { return _activeOperator; }
-            private set { 
+            private set 
+            { 
                 _activeOperator = value; 
-                // Add method to convert enum and set field
             }
         }
 
@@ -78,7 +62,6 @@ namespace FTCalculator
 
         public void NumberButton_Click(object sender, RoutedEventArgs e)
         {
-            // Adds value to the current string value
             Button button = (Button)sender;
 
             ActiveOperand =  ActiveOperand + button.Tag.ToString();
@@ -113,14 +96,12 @@ namespace FTCalculator
 
         public void Calculate_Click(object sender, RoutedEventArgs e)
         {
-            // Calculate current operation
-            float number;
+            double number;
             
-            bool result = float.TryParse(PreviousOperand, out number);
+            bool result = double.TryParse(PreviousOperand, out number);
 
             if (result)
             {
-                // Test
                 CalculationResultField.Text = number.ToString();
             }
         }

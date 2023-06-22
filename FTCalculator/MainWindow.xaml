@@ -39,8 +39,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" x:Name="ButtonClear" Tag="Clear" Click="Clear_Click">Clear</Button>
-            <Button Grid.Column="1" x:Name="ButtonDivide" Tag="Divide" Click="OperatorButton_Click">/</Button>
+            <Button Grid.Column="0" Tag="Clear" Click="Clear_Click">Clear</Button>
+            <Button Grid.Column="1" Tag="Divide" Click="OperatorButton_Click">/</Button>
         </Grid>
 
         <!-- Calculator buttons buttom three rows -->
@@ -63,25 +63,25 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonSeven" Tag="7" Click="NumberButton_Click">7</Button>
-            <Button Grid.Row="0" Grid.Column="1" x:Name="ButtonEight" Tag="8" Click="NumberButton_Click">8</Button>
-            <Button Grid.Row="0" Grid.Column="2" x:Name="ButtonNine" Tag="9" Click="NumberButton_Click">9</Button>
-            <Button Grid.Row="0" Grid.Column="3" x:Name="ButtonMultiply" Tag="Multiply" Click="OperatorButton_Click">*</Button>
+            <Button Grid.Row="0" Grid.Column="0" Tag="7" Click="NumberButton_Click">7</Button>
+            <Button Grid.Row="0" Grid.Column="1" Tag="8" Click="NumberButton_Click">8</Button>
+            <Button Grid.Row="0" Grid.Column="2" Tag="9" Click="NumberButton_Click">9</Button>
+            <Button Grid.Row="0" Grid.Column="3" Tag="Multiply" Click="OperatorButton_Click">*</Button>
 
-            <Button Grid.Row="1" Grid.Column="0" x:Name="ButtonFour" Tag="4" Click="NumberButton_Click">4</Button>
-            <Button Grid.Row="1" Grid.Column="1" x:Name="ButtonFive" Tag="5" Click="NumberButton_Click">5</Button>
-            <Button Grid.Row="1" Grid.Column="2" x:Name="ButtonSix" Tag="6" Click="NumberButton_Click">6</Button>
-            <Button Grid.Row="1" Grid.Column="3" x:Name="ButtonSubstract" Tag="Subtract" Click="OperatorButton_Click">-</Button>
+            <Button Grid.Row="1" Grid.Column="0" Tag="4" Click="NumberButton_Click">4</Button>
+            <Button Grid.Row="1" Grid.Column="1" Tag="5" Click="NumberButton_Click">5</Button>
+            <Button Grid.Row="1" Grid.Column="2" Tag="6" Click="NumberButton_Click">6</Button>
+            <Button Grid.Row="1" Grid.Column="3" Tag="Subtract" Click="OperatorButton_Click">-</Button>
 
-            <Button Grid.Row="2" Grid.Column="0" x:Name="ButtonOne" Tag="1" Click="NumberButton_Click">1</Button>
-            <Button Grid.Row="2" Grid.Column="1" x:Name="ButtonTwo" Tag="2" Click="NumberButton_Click">2</Button>
-            <Button Grid.Row="2" Grid.Column="2" x:Name="ButtonThree" Tag="3" Click="NumberButton_Click">3</Button>
-            <Button Grid.Row="2" Grid.Column="3" x:Name="ButtonAdd" Tag="Add" Click="OperatorButton_Click">+</Button>
+            <Button Grid.Row="2" Grid.Column="0" Tag="1" Click="NumberButton_Click">1</Button>
+            <Button Grid.Row="2" Grid.Column="1" Tag="2" Click="NumberButton_Click">2</Button>
+            <Button Grid.Row="2" Grid.Column="2" Tag="3" Click="NumberButton_Click">3</Button>
+            <Button Grid.Row="2" Grid.Column="3" Tag="Add" Click="OperatorButton_Click">+</Button>
 
-            <Button Grid.Row="3" Grid.Column="0" x:Name="ButtonFactorial" Tag="Factorial" Click="OperatorButton_Click">n!</Button>
-            <Button Grid.Row="3" Grid.Column="1" x:Name="ButtonZero" Tag="0" Click="NumberButton_Click">0</Button>
-            <Button Grid.Row="3" Grid.Column="2" x:Name="ButtonDecimal" Tag="Comma">.</Button>
-            <Button Grid.Row="3" Grid.Column="3" x:Name="ButtonCalculate" Tag="Compute">=</Button>
+            <Button Grid.Row="3" Grid.Column="0" Tag="Factorial" Click="OperatorButton_Click">n!</Button>
+            <Button Grid.Row="3" Grid.Column="1" Tag="0" Click="NumberButton_Click">0</Button>
+            <Button Grid.Row="3" Grid.Column="2" Tag="Comma">.</Button>
+            <Button Grid.Row="3" Grid.Column="3" Tag="Compute">=</Button>
         </Grid>
     </Grid>
 </Window>
