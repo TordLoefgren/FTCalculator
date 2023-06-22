@@ -1,46 +1,53 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class OperationService : IOperationService
+namespace FTCalculator.Services
 {
-    public float Add(float valueOne, float valueTwo)
+    public class OperationService : IOperationService
     {
-        return valueOne + valueTwo;
-    }
-
-    public float Divide(float valueOne, float valueTwo)
-    {
-        if (valueTwo == 0)
+        public float Add(float valueOne, float valueTwo)
         {
-            // Do nothing in UI?
-            throw new DivideByZeroException();
-        }
-        return valueOne / valueTwo;
-    }
-
-    public float Mutiply(float valueOne, float valueTwo)
-    {
-        return valueOne * valueTwo;
-    }
-
-    public float Subtract(float valueOne, float valueTwo)
-    {
-        return valueOne - valueTwo;
-    }
-
-    public int Factorial(int value)
-    {
-        if (value < 0)
-        {
-            throw new ArgumentException("Input cannot be negative.");
+            return valueOne + valueTwo;
         }
 
-        if (value == 0)
+        public float Divide(float valueOne, float valueTwo)
         {
-            return 1;
+            if (valueTwo == 0)
+            {
+                // Do nothing in UI?
+                throw new DivideByZeroException();
+            }
+            return valueOne / valueTwo;
         }
-        else
+
+        public float Mutiply(float valueOne, float valueTwo)
         {
-            return value * Factorial(value - 1);
+            return valueOne * valueTwo;
+        }
+
+        public float Subtract(float valueOne, float valueTwo)
+        {
+            return valueOne - valueTwo;
+        }
+
+        public int Factorial(int value)
+        {
+            if (value < 0)
+            {
+                throw new ArgumentException("Input cannot be negative.");
+            }
+
+            if (value == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return value * Factorial(value - 1);
+            }
         }
     }
 }
