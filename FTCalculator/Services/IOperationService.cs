@@ -14,5 +14,5 @@ public interface IOperationService
     float Subtract(float valueOne, float valueTwo);
     float Divide(float valueOne, float valueTwo);
     float Mutiply(float valueOne, float valueTwo);
-    int Factorial(int valueOne, int valueTwo);
+    int Factorial(int value);
 }
