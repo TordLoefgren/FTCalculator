@@ -31,7 +31,7 @@
         Multiply,
 
         /// <summary>
-        /// Represents the factorial (!) operator
+        /// Represents the factorial (n!) operator
         /// </summary>
         Factorial
     }
