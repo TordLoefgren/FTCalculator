@@ -25,7 +25,7 @@ namespace FTCalculator.Services
         /// </summary>
         /// <param name="valueOne">The first number</param>
         /// <param name="valueTwo">The second number</param>
-        /// <returns>The result of a division of two numbers</returns>
+        /// <returns>The quotient of two numbers</returns>
         /// <exception cref="DivideByZeroException">A number cannot be divided by zero</exception>
         double Divide(double valueOne, double valueTwo);
 
@@ -35,7 +35,7 @@ namespace FTCalculator.Services
         /// <param name="valueOne">The first number</param>
         /// <param name="valueTwo">The second number</param>
         /// <returns>The product of two numbers</returns>
-        double Mutiply(double valueOne, double valueTwo);
+        double Multiply(double valueOne, double valueTwo);
 
         /// <summary>
         /// Calculates the factorial of an integer

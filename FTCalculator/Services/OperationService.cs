@@ -2,6 +2,9 @@
 
 namespace FTCalculator.Services
 {
+    /// <summary>
+    /// Represents a calculator operation-service.
+    /// </summary>
     public class OperationService : IOperationService
     {
         public double Add(double valueOne, double valueTwo)
@@ -19,7 +22,7 @@ namespace FTCalculator.Services
             return valueOne / valueTwo;
         }
 
-        public double Mutiply(double valueOne, double valueTwo)
+        public double Multiply(double valueOne, double valueTwo)
         {
             return valueOne * valueTwo;
         }

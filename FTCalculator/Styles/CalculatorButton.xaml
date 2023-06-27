@@ -6,6 +6,6 @@
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Padding" Value="10 5"/>
         <Setter Property="FontSize" Value="24"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="{StaticResource ButtonGreyBrush}"/>
     </Style>
 </ResourceDictionary>
