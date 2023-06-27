@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FTCalculator" 
         xmlns:views="clr-namespace:FTCalculator.Views"
+        xmlns:viewmodels="clr-namespace:FTCalculator.ViewModels"
         mc:Ignorable="d"
         Title="FTCalculator" Height="560" Width="320">
     <Grid Background="{StaticResource BackgroundGreyBrush}">
-        <views:CalculatorView DataContext="{Binding CurrentViewModel}"/>
+        
+        <views:CalculatorView Calculator="{Binding DataContext}"/>
     </Grid>
 
 </Window>

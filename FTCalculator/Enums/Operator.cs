@@ -6,11 +6,6 @@
     public enum Operator
     {
         /// <summary>
-        /// Represents the lack of an operator
-        /// </summary>
-        NoOperator,
-
-        /// <summary>
         /// Represents the addition (+) operator
         /// </summary>
         Add,
@@ -28,11 +23,6 @@
         /// <summary>
         /// Represents multiplication (*) operator
         /// </summary>
-        Multiply,
-
-        /// <summary>
-        /// Represents the factorial (n!) operator
-        /// </summary>
-        Factorial
+        Multiply
     }
 }

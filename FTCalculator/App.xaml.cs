@@ -2,6 +2,7 @@
 using System.Windows;
 using FTCalculator.Services;
 using FTCalculator.ViewModels;
+using FTCalculator.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FTCalculator
@@ -15,17 +16,9 @@ namespace FTCalculator
         {
             IServiceProvider serviceProvider = CreateServiceProvider();
 
-            /* Window window = new MainWindow();
-
-             // Required services created here.
-             window.DataContext = serviceProvider.GetRequiredService<ViewModelBase>();
-
-             window.Show();*/
-
             MainWindow = new MainWindow
             {
-                //DataContext = serviceProvider.GetRequiredService<ViewModelBase>()
-                DataContext = new CentralViewModel()
+                DataContext = serviceProvider.GetRequiredService<ICalculatorViewModel>(),
             };
             MainWindow.Show();
             
@@ -37,8 +30,10 @@ namespace FTCalculator
             IServiceCollection services = new ServiceCollection();
 
             // Required services added here
-            services.AddSingleton<IOperationService, OperationService>();
-            services.AddSingleton<ViewModelBase, CentralViewModel>();
+            services.AddSingleton<IGenericOperationService, GenericOperationService>();
+            services.AddSingleton<IOperatorConversionService, OperatorConversionService>();
+
+            services.AddTransient<ICalculatorViewModel, CalculatorViewModel>();
 
             return services.BuildServiceProvider();
         }
