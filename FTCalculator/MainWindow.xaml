@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         Title="FTCalculator" Height="560" Width="320">
     <Grid Background="{StaticResource BackgroundGreyBrush}">
-        
         <views:CalculatorView Calculator="{Binding DataContext}"/>
     </Grid>
 

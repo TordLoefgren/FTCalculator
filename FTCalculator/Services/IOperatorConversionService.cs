@@ -29,6 +29,6 @@ namespace FTCalculator.Services
         /// <param name="op">Operator to be converted.</param>
         /// <returns>The string symbol representation of the Operator.</returns>
         /// /// <exception cref="ArgumentException">No such Operator exists.</exception>
-        string OperatorToSymbolString(Operator? op);
+        string OperatorToSymbolString(Operator op);
     }
 }

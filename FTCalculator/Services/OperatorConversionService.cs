@@ -16,21 +16,10 @@ namespace FTCalculator.Services
 
         public Operator StringToOperator(string op)
         {
-            Operator enumOp;
-
-            bool result = Enum.TryParse(op, out enumOp);
-
-            if (result)
-            {
-                return enumOp;
-            }
-            else
-            {
-                throw new ArgumentException("No such operator exists.");
-            }
+            return Enum.TryParse(op, out Operator enumOp) ? enumOp : throw new ArgumentException("No such operator exists.");
         }
 
-        public string OperatorToSymbolString(Operator? op)
+        public string OperatorToSymbolString(Operator op)
         {
             switch (op)
             {

@@ -3,11 +3,11 @@ using FTCalculator.Services;
 
 namespace FTCalculator.Tests.Services
 {
-    public class OperatorConversionServiceTest
+    public class OperatorOperationServiceTest
     {
         private readonly IOperatorConversionService _operationConversionService;
 
-        public OperatorConversionServiceTest()
+        public OperatorOperationServiceTest()
         {
             _operationConversionService = new OperatorConversionService();
         }
@@ -46,12 +46,6 @@ namespace FTCalculator.Tests.Services
         public void OperatorToSymbolString_Should_ReturnCorrectOperatorStringSymbol(Operator op, string expected)
         {
             Assert.Equal(expected, _operationConversionService.OperatorToSymbolString(op));
-        }
-
-        [Fact]
-        public void StringToOperator_Should_ThrowArgumentException_When_CalledWithNull()
-        {
-            Assert.Throws<ArgumentException>(() => _operationConversionService.OperatorToSymbolString(null));
         }
     }
 }

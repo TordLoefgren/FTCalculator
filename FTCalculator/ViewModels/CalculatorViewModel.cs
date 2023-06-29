@@ -2,6 +2,7 @@
 using FTCalculator.Enums;
 using FTCalculator.Services;
 using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace FTCalculator.ViewModels
@@ -59,30 +60,37 @@ namespace FTCalculator.ViewModels
             private set => SetField(ref _activeOperator, value);
         }
 
-        private readonly IGenericOperationService _genericOperationService;
+        private readonly IGenericBinaryOperationService _genericBinaryOperationService;
         private readonly IOperatorConversionService _operatorConversionService;
+        private readonly IGenericUnaryOperationService _unaryOperationService;
 
         public ICommand ComputeCommand { get; private set; } 
         public ICommand ComputeFactorialCommand { get; private set; }
+        public ICommand ClearCommand { get; private set; }
+        public ICommand SetDecimalCommand { get; private set; }
         public ICommand SetOperatorCommand { get; private set; }
         public ICommand SetNumberCommand { get; private set; }
-        public ICommand ClearCommand { get; private set; }
 
         /// <summary>
         /// Initializes a new CalculatorViewModel instance.
         /// </summary>
         /// <param name="genericOperationService">A service that provides basic calculator operations.</param>
         /// <param name="operatorConversionService">A service that provides Operator-String conversions.</param>
-        public CalculatorViewModel(IGenericOperationService genericOperationService, IOperatorConversionService operatorConversionService) 
+        public CalculatorViewModel(
+            IGenericBinaryOperationService genericOperationService, 
+            IOperatorConversionService operatorConversionService,
+            IGenericUnaryOperationService unaryOperationService) 
         {
-            _genericOperationService = genericOperationService;
+            _genericBinaryOperationService = genericOperationService;
             _operatorConversionService = operatorConversionService;
+            _unaryOperationService = unaryOperationService;
 
             ComputeCommand = new RelayCommand(_ => Compute());
             ComputeFactorialCommand = new RelayCommand(_ => ComputeFactorial());
-            SetOperatorCommand = new RelayCommand(op => SetOperator(operatorConversionService.StringToOperator(op.ToString())));
-            SetNumberCommand = new RelayCommand(number => SetNumber(number.ToString()));
             ClearCommand = new RelayCommand(_ => Clear());
+            SetDecimalCommand = new RelayCommand(_ => SetDecimal());
+            SetOperatorCommand = new RelayCommand<Operator>(SetOperator);
+            SetNumberCommand = new RelayCommand<string>(SetNumber);
         }
 
         /// <summary>
@@ -91,16 +99,17 @@ namespace FTCalculator.ViewModels
         /// <remarks>If the current operator is null, the method will do nothing.</remarks>
         public void Compute()
         {
-            Operator? currentOperator = ActiveOperator;
-
-            if (currentOperator is not null) 
+            if (ActiveOperator is not null) 
             {
-                double valueOne = double.Parse(PreviousOperand);
-                double valueTwo = double.Parse(ActiveOperand);
+                var valueOne = double.Parse(PreviousOperand);
+                var valueTwo = double.Parse(ActiveOperand);
 
-                double result = _genericOperationService.ComputeByOperator(currentOperator, valueOne, valueTwo);
+                var result = _genericBinaryOperationService.ComputeByOperator((Operator)ActiveOperator, valueOne, valueTwo);
 
+                ActiveOperator = null;
+                ActiveOperations += ActiveOperand;
                 ActiveOperand = result.ToString();
+                PreviousOperand = "";
             }
         }
 
@@ -110,7 +119,9 @@ namespace FTCalculator.ViewModels
         /// <remarks>This method can only calculate integer factorials.</remarks>
         public void ComputeFactorial()
         {
-            // Not yet implemented. WIP.
+            ActiveOperations = $"fact({ActiveOperand})";
+            var result = _unaryOperationService.Factorial(int.Parse(ActiveOperand));
+            ActiveOperand = result.ToString();
         }
 
         /// <summary>
@@ -119,12 +130,16 @@ namespace FTCalculator.ViewModels
         /// <param name="op">The new active operator.</param>
         public void SetOperator(Operator op)
         {
-            ActiveOperator = op;
-            if (ActiveOperator is not null)
+            if (op != ActiveOperator)
             {
-                ActiveOperations = ActiveOperand + _operatorConversionService.OperatorToSymbolString(ActiveOperator);
+                ActiveOperator = op;
+                ActiveOperations = ActiveOperand + _operatorConversionService.OperatorToSymbolString((Operator)ActiveOperator);
+            }
+
+            if (ActiveOperand != "")
+            {
                 PreviousOperand = ActiveOperand;
-                ActiveOperand = "0";
+                ActiveOperand = "";
             }
         }
 
@@ -154,6 +169,19 @@ namespace FTCalculator.ViewModels
             PreviousOperand = "";
             ActiveOperations = "";
             ActiveOperator = null;
+        }
+
+        /// <summary>
+        /// Sets a decimal point delimiter.
+        /// </summary>
+        public void SetDecimal()
+        {
+            var activeOperand = double.Parse(ActiveOperand);
+
+            if (activeOperand % 1 == 0 || !ActiveOperand.Contains('.'))
+            {
+                ActiveOperand += ".";
+            }
         }
     }
 }

@@ -30,7 +30,8 @@ namespace FTCalculator
             IServiceCollection services = new ServiceCollection();
 
             // Required services added here
-            services.AddSingleton<IGenericOperationService, GenericOperationService>();
+            services.AddSingleton<IGenericBinaryOperationService, GenericBinaryOperationService>();
+            services.AddSingleton<IGenericUnaryOperationService, GenericUnaryOperationService>();
             services.AddSingleton<IOperatorConversionService, OperatorConversionService>();
 
             services.AddTransient<ICalculatorViewModel, CalculatorViewModel>();

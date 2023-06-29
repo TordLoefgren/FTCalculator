@@ -108,9 +108,9 @@
                 Command="{Binding SetOperatorCommand}" 
                 CommandParameter="{x:Static enums:Operator.Add}"/>
 
-            <Button Grid.Row="3" Grid.Column="0" Content="n!" Command="{Binding ComputeFactorial}"/>
+            <Button Grid.Row="3" Grid.Column="0" Content="n!" Command="{Binding ComputeFactorialCommand}"/>
             <Button Grid.Row="3" Grid.Column="1" Content="0" Command="{Binding SetNumberCommand}" CommandParameter="0"/>
-            <Button Grid.Row="3" Grid.Column="2" Content="."/>
+            <Button Grid.Row="3" Grid.Column="2" Content="." Command="{Binding SetDecimalCommand}"/>
             <Button 
                 Grid.Row="3" 
                 Grid.Column="3" 

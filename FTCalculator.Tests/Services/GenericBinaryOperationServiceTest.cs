@@ -3,13 +3,13 @@ using FTCalculator.Services;
 
 namespace FTCalculator.Tests.Services
 {
-    public class GenericOperationServiceTest
+    public class GenericBinaryOperationServiceTest
     {
-        private readonly IGenericOperationService _genericOperationService;
+        private readonly IGenericBinaryOperationService _genericBinaryOperationService;
 
-        public GenericOperationServiceTest() 
+        public GenericBinaryOperationServiceTest() 
         {
-            _genericOperationService = new GenericOperationService();
+            _genericBinaryOperationService = new GenericBinaryOperationService();
         }
 
         [Theory]
@@ -23,7 +23,7 @@ namespace FTCalculator.Tests.Services
         [InlineData(-2, -2, -4)]
         public void Add_Should_ReturnCorrectSum(double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.Add(valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.Add(valueOne, valueTwo));
         }
 
         [Theory]
@@ -37,7 +37,7 @@ namespace FTCalculator.Tests.Services
         [InlineData(-2, -2, 0)]
         public void Subtract_Should_ReturnCorrectDifference(double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.Subtract(valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.Subtract(valueOne, valueTwo));
         }
 
         [Theory]
@@ -51,7 +51,7 @@ namespace FTCalculator.Tests.Services
         [InlineData(2, 2, 4)]
         public void Multiply_Should_ReturnCorrectProduct(double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.Multiply(valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.Multiply(valueOne, valueTwo));
         }
 
         [Theory]
@@ -62,13 +62,13 @@ namespace FTCalculator.Tests.Services
         [InlineData(2, 2, 1)]
         public void Divide_Should_ReturnCorrectQuotient(double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.Divide(valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.Divide(valueOne, valueTwo));
         }
 
         [Fact]
         public void Divide_Should_ThrowDivideByZeroException_When_CalledWithZeroAsDenominator()
         {
-            Assert.Throws<DivideByZeroException>(() => _genericOperationService.Divide(10, 0));
+            Assert.Throws<DivideByZeroException>(() => _genericBinaryOperationService.Divide(10, 0));
         }
 
         [Theory]
@@ -82,7 +82,7 @@ namespace FTCalculator.Tests.Services
         [InlineData(Operator.Add, -2, -2, -4)]
         public void ComputeByOperator_Should_ReturnCorrectSum_When_CalledWithAddOperator(Operator op, double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.ComputeByOperator(op, valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.ComputeByOperator(op, valueOne, valueTwo));
         }
 
         [Theory]
@@ -96,7 +96,7 @@ namespace FTCalculator.Tests.Services
         [InlineData(Operator.Subtract, -2, -2, 0)]
         public void ComputeByOperator_Should_ReturnCorrectDifference_When_CalledWithSubtractOperator(Operator op, double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.ComputeByOperator(op, valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.ComputeByOperator(op, valueOne, valueTwo));
         }
 
         [Theory]
@@ -110,7 +110,7 @@ namespace FTCalculator.Tests.Services
         [InlineData(Operator.Multiply, 2, 2, 4)]
         public void ComputeByOperator_Should_ReturnCorrectProduct_When_CalledWithMultiplyOperator(Operator op, double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.ComputeByOperator(op, valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.ComputeByOperator(op, valueOne, valueTwo));
         }
 
         [Theory]
@@ -121,7 +121,7 @@ namespace FTCalculator.Tests.Services
         [InlineData(Operator.Divide, 2, 2, 1)]
         public void ComputeByOperator_Should_ReturnCorrectQuotient_When_CalledWithDivideOperator(Operator op, double valueOne, double valueTwo, double expected)
         {
-            Assert.Equal(expected, _genericOperationService.ComputeByOperator(op, valueOne, valueTwo));
+            Assert.Equal(expected, _genericBinaryOperationService.ComputeByOperator(op, valueOne, valueTwo));
         }
     }
 }

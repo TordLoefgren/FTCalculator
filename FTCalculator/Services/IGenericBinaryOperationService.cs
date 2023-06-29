@@ -5,9 +5,9 @@ using System.Numerics;
 namespace FTCalculator.Services
 {
     /// <summary>
-    /// Service class that performs basic operations on generic numbers.
+    /// Service class that performs basic binary operations on generic numbers.
     /// </summary>
-    public interface IGenericOperationService
+    public interface IGenericBinaryOperationService
     {
         /// <summary>
         /// Calculates the sum of two numbers.
@@ -50,6 +50,6 @@ namespace FTCalculator.Services
         /// <param name="valueTwo">The second number.</param>
         /// <returns>The result of the operation.</returns>
         /// <exception cref="ArgumentException">Invalid argument.</exception>
-        T ComputeByOperator<T>(Operator? op, T valueOne, T valueTwo) where T : INumber<T>;
+        T ComputeByOperator<T>(Operator op, T valueOne, T valueTwo) where T : INumber<T>;
     }
 }
