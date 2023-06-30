@@ -3,12 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FTCalculator.Views" xmlns:viewmodels="clr-namespace:FTCalculator.ViewModels"
+             xmlns:local="clr-namespace:FTCalculator.Views" 
+             xmlns:viewmodels="clr-namespace:FTCalculator.ViewModels"
+             xmlns:enums="clr-namespace:FTCalculator.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="560" d:DesignWidth="320">
-    <UserControl.DataContext>
-        <viewmodels:CalculatorViewModel/>
-    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
                 <RowDefinition Height="2*"></RowDefinition>
@@ -24,18 +23,19 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                 <TextBlock 
-                        Grid.Row="0" 
-                        x:Name="ActiveOperationsField" 
-                        Text="{Binding ActiveOperations}" 
-                        FontSize="35" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Bottom"/>
+                    Grid.Row="0" 
+                    x:Name="ActiveOperationsField" 
+                    Text="{Binding ActiveOperations, Mode=OneWay}" 
+                    FontSize="35" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom"/>
                 <TextBlock 
-                        Grid.Row="1" 
-                        x:Name="ActiveOperandField" 
-                        Text="{Binding ActiveOperand}" FontSize="50" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Bottom"/>
+                    Grid.Row="1" 
+                    x:Name="ActiveOperandField" 
+                    Text="{Binding ActiveOperand, Mode=OneWay}" 
+                    FontSize="50"
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom"/>
                 </Grid>
             </Grid>
 
@@ -50,10 +50,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Tag="Clear" Content="Clear"
-                    Command="{Binding ClearCommand}"/>
-            <Button Grid.Column="1" Content="/" Command="{Binding AddOperatorCommand}" 
-                    CommandParameter="Divide"/>
+            <Button Grid.Column="0" Content="Clear" Command="{Binding ClearCommand}"/>
+            <Button 
+                Grid.Column="1" 
+                Content="/" 
+                Command="{Binding SetOperatorCommand}" 
+                CommandParameter="{x:Static enums:Operator.Divide}"/>
         </Grid>
 
             <!-- Calculator buttons buttom three rows -->
@@ -76,30 +78,46 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" Content="7" Command="{Binding AddNumberCommand}" CommandParameter="7"/>
-            <Button Grid.Row="0" Grid.Column="1" Content="8" Command="{Binding AddNumberCommand}" CommandParameter="8"/>
-            <Button Grid.Row="0" Grid.Column="2" Content="9" Command="{Binding AddNumberCommand}" CommandParameter="9"/>
-            <Button Grid.Row="0" Grid.Column="3" Content="*" 
-                    Command="{Binding AddOperatorCommand}" CommandParameter="Multiply"/>
+            <Button Grid.Row="0" Grid.Column="0" Content="7" Command="{Binding SetNumberCommand}" CommandParameter="7"/>
+            <Button Grid.Row="0" Grid.Column="1" Content="8" Command="{Binding SetNumberCommand}" CommandParameter="8"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="9" Command="{Binding SetNumberCommand}" CommandParameter="9"/>
+            <Button 
+                Grid.Row="0" 
+                Grid.Column="3" 
+                Content="*" 
+                Command="{Binding SetOperatorCommand}" 
+                CommandParameter="{x:Static enums:Operator.Multiply}"/>
 
-            <Button Grid.Row="1" Grid.Column="0" Content="4" Command="{Binding AddNumberCommand}" CommandParameter="4"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="5" Command="{Binding AddNumberCommand}" CommandParameter="5"/>
-            <Button Grid.Row="1" Grid.Column="2" Content="6" Command="{Binding AddNumberCommand}" CommandParameter="6"/>
-            <Button Grid.Row="1" Grid.Column="3" Content="-"  
-                    Command="{Binding AddOperatorCommand}" CommandParameter="Subtract"/>
+            <Button Grid.Row="1" Grid.Column="0" Content="4" Command="{Binding SetNumberCommand}" CommandParameter="4"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="5" Command="{Binding SetNumberCommand}" CommandParameter="5"/>
+            <Button Grid.Row="1" Grid.Column="2" Content="6" Command="{Binding SetNumberCommand}" CommandParameter="6"/>
+            <Button 
+                Grid.Row="1" 
+                Grid.Column="3" 
+                Content="-"  
+                Command="{Binding SetOperatorCommand}" 
+                CommandParameter="{x:Static enums:Operator.Subtract}"/>
 
-            <Button Grid.Row="2" Grid.Column="0" Content="1" Command="{Binding AddNumberCommand}" CommandParameter="1"/>
-            <Button Grid.Row="2" Grid.Column="1" Content="2" Command="{Binding AddNumberCommand}" CommandParameter="2"/>
-            <Button Grid.Row="2" Grid.Column="2" Content="3" Command="{Binding AddNumberCommand}" CommandParameter="3"/>
-            <Button Grid.Row="2" Grid.Column="3" Content="+"  
-                    Command="{Binding AddOperatorCommand}" CommandParameter="Add"/>
+            <Button Grid.Row="2" Grid.Column="0" Content="1" Command="{Binding SetNumberCommand}" CommandParameter="1"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="2" Command="{Binding SetNumberCommand}" CommandParameter="2"/>
+            <Button Grid.Row="2" Grid.Column="2" Content="3" Command="{Binding SetNumberCommand}" CommandParameter="3"/>
+            <Button 
+                Grid.Row="2" 
+                Grid.Column="3" 
+                Content="+"  
+                Command="{Binding SetOperatorCommand}" 
+                CommandParameter="{x:Static enums:Operator.Add}"/>
 
-            <Button Grid.Row="3" Grid.Column="0" Content="n!" Tag="Factorial"/>
-            <Button Grid.Row="3" Grid.Column="1" Content="0" Command="{Binding AddNumberCommand}" CommandParameter="0"/>
-            <Button Grid.Row="3" Grid.Column="2" Content="." Tag="Comma"/>
-            <Button Grid.Row="3" Grid.Column="3" Content="=" Tag="Equals" Foreground="White" 
-                    Background="{StaticResource EqualsButtonBlueBrush}"
-                    Command="{Binding ComputeCommand}"/>
+            <Button Grid.Row="3" Grid.Column="0" Content="n!" Command="{Binding ComputeFactorialCommand}"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="0" Command="{Binding SetNumberCommand}" CommandParameter="0"/>
+            <Button Grid.Row="3" Grid.Column="2" Content="." Command="{Binding SetDecimalCommand}"/>
+            <Button 
+                Grid.Row="3" 
+                Grid.Column="3" 
+                Content="=" 
+                Foreground="White" 
+                Background="{StaticResource EqualsButtonBlueBrush}"
+                Command="{Binding ComputeCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -2,11 +2,7 @@
 using FTCalculator.Enums;
 using FTCalculator.Services;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace FTCalculator.ViewModels
@@ -14,7 +10,7 @@ namespace FTCalculator.ViewModels
     /// <summary>
     /// Represents a Calculator ViewModel.
     /// </summary>
-    public class CalculatorViewModel : ViewModelBase
+    public class CalculatorViewModel : ViewModelBase, ICalculatorViewModel
     {
         private string _activeOperand = "0";
 
@@ -24,12 +20,8 @@ namespace FTCalculator.ViewModels
         /// <returns>The active operand.</returns>
         public string ActiveOperand
         {
-            get { return _activeOperand; }
-            private set
-            {
-                _activeOperand = value;
-                OnPropertyChanged(nameof(ActiveOperand));
-            }
+            get => _activeOperand;
+            private set => SetField(ref _activeOperand, value);
         }
 
         private string _previousOperand = "";
@@ -40,12 +32,8 @@ namespace FTCalculator.ViewModels
         /// <returns>The previous operand.</returns>
         public string PreviousOperand
         {
-            get { return _previousOperand; }
-            private set
-            {
-                _previousOperand = value;
-                OnPropertyChanged(nameof(PreviousOperand));
-            }
+            get => _previousOperand;
+            private set => SetField(ref _previousOperand, value);
         }
 
         private string _activeOperations = "";
@@ -56,106 +44,144 @@ namespace FTCalculator.ViewModels
         /// <returns>The active operations.</returns>
         public string ActiveOperations
         {
-            get { return _activeOperations; }
-            private set
-            {
-                _activeOperations = value;
-                OnPropertyChanged(nameof(ActiveOperations));
-            }
+            get => _activeOperations;
+            private set => SetField(ref _activeOperations, value);
         }
 
-        private Operator _activeOperator = Operator.NoOperator;
+        private Operator? _activeOperator = null;
         
         /// <summary>
         /// Gets the active operator value.
         /// </summary>
         /// <returns>The active operator value.</returns>
-        /// <remarks>When the operator is set, the current operand is stored as part of the active operations.</remarks>
-        public Operator ActiveOperator
+        public Operator? ActiveOperator
         {
-            get { return _activeOperator; }
-            private set
-            {
-                _activeOperator = value;
-                OnPropertyChanged(nameof(ActiveOperator));
-                PreviousOperand = ActiveOperand;
-                ActiveOperations = PreviousOperand;
-                ActiveOperand = "";
-            }
+            get => _activeOperator;
+            private set => SetField(ref _activeOperator, value);
         }
 
-        private readonly IOperationService _operationService;
+        private readonly IGenericBinaryOperationService _genericBinaryOperationService;
+        private readonly IOperatorConversionService _operatorConversionService;
+        private readonly IGenericUnaryOperationService _unaryOperationService;
+
         public ICommand ComputeCommand { get; private set; } 
-        public ICommand AddOperatorCommand { get; private set; }
-        public ICommand AddNumberCommand { get; private set; }
+        public ICommand ComputeFactorialCommand { get; private set; }
         public ICommand ClearCommand { get; private set; }
+        public ICommand SetDecimalCommand { get; private set; }
+        public ICommand SetOperatorCommand { get; private set; }
+        public ICommand SetNumberCommand { get; private set; }
 
         /// <summary>
         /// Initializes a new CalculatorViewModel instance.
         /// </summary>
-        public CalculatorViewModel() 
+        /// <param name="genericOperationService">A service that provides basic calculator operations.</param>
+        /// <param name="operatorConversionService">A service that provides Operator-String conversions.</param>
+        public CalculatorViewModel(
+            IGenericBinaryOperationService genericOperationService, 
+            IOperatorConversionService operatorConversionService,
+            IGenericUnaryOperationService unaryOperationService) 
         {
-            _operationService = new OperationService();
+            _genericBinaryOperationService = genericOperationService;
+            _operatorConversionService = operatorConversionService;
+            _unaryOperationService = unaryOperationService;
+
             ComputeCommand = new RelayCommand(_ => Compute());
-            AddOperatorCommand = new RelayCommand(op => ActiveOperator = OperatorConverter.StringToOperator((string)op));
-            AddNumberCommand = new RelayCommand(AddNumber);
+            ComputeFactorialCommand = new RelayCommand(_ => ComputeFactorial());
             ClearCommand = new RelayCommand(_ => Clear());
+            SetDecimalCommand = new RelayCommand(_ => SetDecimal());
+            SetOperatorCommand = new RelayCommand<Operator>(SetOperator);
+            SetNumberCommand = new RelayCommand<string>(SetNumber);
         }
 
+        /// <summary>
+        /// Calculates the result of applying the current operator method to the active operands.
+        /// </summary>
+        /// <remarks>If the current operator is null, the method will do nothing.</remarks>
         public void Compute()
         {
-            double valueOne = double.Parse(PreviousOperand);
-            double valueTwo = double.Parse(ActiveOperand);
-            double result = 0;
-
-            switch (ActiveOperator)
+            if (ActiveOperator is not null) 
             {
-                case Operator.NoOperator:
-                    break;
-                case Operator.Add:
-                    result = _operationService.Add(valueOne, valueTwo);
-                    break;
-                case Operator.Subtract:
-                    result = _operationService.Subtract(valueOne, valueTwo);
-                    break;
-                case Operator.Multiply:
-                    result = _operationService.Multiply(valueOne, valueTwo);
-                    break;
-                case Operator.Divide:
-                    result = _operationService.Divide(valueOne, valueTwo);
-                    break;
-                default:
-                    throw new ArgumentException("Invalid argument.");
+                var valueOne = double.Parse(PreviousOperand);
+                var valueTwo = double.Parse(ActiveOperand);
+
+                var result = _genericBinaryOperationService.ComputeByOperator((Operator)ActiveOperator, valueOne, valueTwo);
+
+                ActiveOperator = null;
+                ActiveOperations += ActiveOperand;
+                ActiveOperand = result.ToString();
+                PreviousOperand = "";
             }
+        }
+
+        /// <summary>
+        /// Computes the factorial of the current operand.
+        /// </summary>
+        /// <remarks>This method can only calculate integer factorials.</remarks>
+        public void ComputeFactorial()
+        {
+            ActiveOperations = $"fact({ActiveOperand})";
+            var result = _unaryOperationService.Factorial(int.Parse(ActiveOperand));
             ActiveOperand = result.ToString();
         }
 
-        public void AddOperator(object op)
+        /// <summary>
+        /// Sets the current operator to the operator pressed on the CalculatorView.
+        /// </summary>
+        /// <param name="op">The new active operator.</param>
+        public void SetOperator(Operator op)
         {
-            Operator enumOp = (Operator)op;
+            if (op != ActiveOperator)
+            {
+                ActiveOperator = op;
+                ActiveOperations = ActiveOperand + _operatorConversionService.OperatorToSymbolString((Operator)ActiveOperator);
+            }
 
-            ActiveOperator = enumOp;
-
+            if (ActiveOperand != "")
+            {
+                PreviousOperand = ActiveOperand;
+                ActiveOperand = "";
+            }
         }
 
-        public void AddNumber(object number)
+        /// <summary>
+        /// Sets the current number to include the number pressed on the CalculatorView.
+        /// </summary>
+        /// <param name="number">The number to included.</param>
+        /// <remarks>If the current number is zero, the given number will replace it.</remarks>
+        public void SetNumber(string number)
         {
-            if (ActiveOperand == "0")
+            if (ActiveOperand == "0" || ActiveOperand == "")
             {
-                ActiveOperand = number.ToString();
+                ActiveOperand = number;
             }
             else
             {
-                ActiveOperand += number.ToString();
+                ActiveOperand += number;
             }
         }
 
+        /// <summary>
+        /// Clears the active operations field, by resetting the current calculator history.
+        /// </summary>
         public void Clear()
         {
             ActiveOperand = "0";
             PreviousOperand = "";
             ActiveOperations = "";
-            ActiveOperator = Operator.NoOperator;
+            ActiveOperator = null;
+        }
+
+        /// <summary>
+        /// Sets a decimal point delimiter.
+        /// </summary>
+        public void SetDecimal()
+        {
+            var activeOperand = double.Parse(ActiveOperand);
+
+            if (activeOperand % 1 == 0 || !ActiveOperand.Contains('.'))
+            {
+                ActiveOperand += ".";
+            }
         }
     }
 }
